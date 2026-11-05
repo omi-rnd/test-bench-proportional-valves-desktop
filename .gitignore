@@ -1,0 +1,28 @@
+# ---------- Python ----------
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+*.spec
+
+# ---------- Registros de pruebas generados por la interfaz ----------
+logs/
+registro_*.txt
+eventos_*.csv
+*.log
+
+# ---------- Sistema operativo ----------
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---------- Editores ----------
+.idea/
+.vscode/
+*.swp
+*.swo

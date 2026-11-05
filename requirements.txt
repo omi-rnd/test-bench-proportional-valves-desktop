@@ -1,0 +1,11 @@
+# Dependencias de Python del banco de pruebas
+#
+# Por ahora los scripts (main.py, main_terminal_tcp.py) solo usan la
+# librería estándar de Python 3: tkinter, socket, threading, queue, csv, re.
+# No hay paquetes que instalar con pip.
+#
+# tkinter viene con Python en Windows y con el instalador de python.org en macOS.
+#     Raspberry Pi OS / Debian / Ubuntu:  sudo apt install python3-tk
+#     macOS con Homebrew:                 brew install python-tk
+#
+# Agregar aquí los paquetes cuando se usen (por ejemplo, pymodbus para Modbus TCP).
