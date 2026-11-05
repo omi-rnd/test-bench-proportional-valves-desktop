@@ -29,6 +29,7 @@ main.py               Script principal: interfaz gráfica Tkinter (conexión, In
                       estado, sensor, conteo, registro y exportación a CSV)
 main_terminal_tcp.py  Terminal TCP en consola (equivalente al Serial Monitor por Ethernet)
 requirements.txt      Dependencias (hoy ninguna fuera de la librería estándar)
+README.md             Documentación para personas (instalación, conexión y uso)
 ```
 
 Los scripts principales van en la **raíz** del repo. Se ejecutan con `python main.py`.
