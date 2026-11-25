@@ -56,4 +56,7 @@ Los scripts principales van en la **raíz** del repo. Se ejecutan con `python ma
 - [ ] Probar la interfaz en la Raspberry Pi 5 con la pantalla EDATEC y en macOS.
 - [ ] Agregar datos de la válvula cuando estén en el Opta: PWM, flujo y temperatura de la bobina.
 - [ ] Curva PWM → flujo: gráfica en la interfaz y exportación a CSV.
+- [ ] Pantalla para la **prueba de durabilidad** (`arduino/opta_durabilidad` del repo de control):
+      captura de parámetros (`set`), leyendas con botón para retirarlas (`k`), monitor (`M,`),
+      registro de ciclos (`D,`) a CSV, resultado y reanudar tras corte (`reanudar N`).
 - [ ] Escalar a **5 válvulas**: la interfaz debe mostrar N canales (configurables), no uno fijo.
