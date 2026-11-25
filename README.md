@@ -80,6 +80,30 @@ hora_pc,evento,numero,duracion_ms
 El **paro de emergencia es solo el botón físico** del tablero; la interfaz únicamente muestra
 su estado.
 
+### Prueba de durabilidad
+
+Para el sketch `opta_durabilidad` (ciclos ON/OFF de una válvula en un slot):
+
+```bash
+python durabilidad.py
+```
+
+1. **Conectar**: la interfaz lee los parámetros del Opta y los muestra a la derecha.
+2. Ajustar los parámetros y presionar **Enviar al Opta** (solo en REPOSO). **Guardar archivo…** /
+   **Cargar archivo…** los guardan en JSON: el Opta vuelve a los valores de fábrica al reiniciarse.
+3. **PWM de la válvula**: el deslizador fija el ciclo de trabajo en ON (1–100 %); si la válvula
+   está encendida el cambio se aplica al momento. **Salida manual** (solo en REPOSO) deja P1
+   encendida fija para probar la salida, por ejemplo con un LED; se apaga sola con el paro o al
+   iniciar la prueba.
+4. **Iniciar**: pide el **nombre del archivo** donde se guardarán los datos; después el Opta
+   verifica, espera la válvula, purga y muestra la leyenda
+   *Ajuste presión al valor deseado*; al terminar de ajustar, **Retirar leyenda**.
+5. Durante la prueba se ven el ciclo, la presencia de válvula, el paro y V / I / T
+   ("—" = medición desactivada). Al terminar o fallar aparece *Cierre suministro neumático*.
+6. Los datos se guardan en `logs/<nombre>.csv` (una fila por ciclo registrado, fallas, cambios de
+   PWM y resultado). Si el nombre ya existe, se agregan al final. Si se cortó la energía:
+   **Reanudar desde ciclo…** (pide el ciclo y el nombre; sugiere el del archivo anterior).
+
 ### Terminal en consola
 
 Para ver los mensajes del Opta sin interfaz gráfica:
@@ -96,6 +120,7 @@ Escribir un comando (`i`, `p`, `s`, `e`, `r`, `c`, `h`) y presionar Enter. `Ctrl
 ```
 main.py               Interfaz gráfica (Tkinter)
 main_terminal_tcp.py  Terminal TCP en consola
+durabilidad.py        Interfaz de la prueba de durabilidad
 requirements.txt      Dependencias de Python
 ```
 

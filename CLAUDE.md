@@ -28,6 +28,8 @@ Debe funcionar igual en **Windows, Linux, Raspberry Pi OS y macOS**.
 main.py               Script principal: interfaz gráfica Tkinter (conexión, Inicio/Pausa/Stop,
                       estado, sensor, conteo, registro y exportación a CSV)
 main_terminal_tcp.py  Terminal TCP en consola (equivalente al Serial Monitor por Ethernet)
+durabilidad.py        Interfaz de la prueba de durabilidad (sketch arduino/opta_durabilidad):
+                      estados, leyendas, parámetros (JSON), monitor y CSV automático en logs/
 requirements.txt      Dependencias (hoy ninguna fuera de la librería estándar)
 README.md             Documentación para personas (instalación, conexión y uso)
 ```
@@ -51,12 +53,30 @@ Los scripts principales van en la **raíz** del repo. Se ejecutan con `python ma
   actualizan.
 - Plan a futuro: migrar a **Modbus TCP** (`pymodbus`) cuando el Opta tenga servidor Modbus.
 
+### Protocolo de `durabilidad.py` (sketch `arduino/opta_durabilidad`)
+
+Cada interfaz habla con su sketch: `main.py` ↔ `opta_sensor_ethernet`, `durabilidad.py` ↔
+`opta_durabilidad`. Ambas usan la clase `Conexion` de `main.py`.
+- Comandos: `i`, `p`, `s`, `k` (retirar leyenda), `reanudar N`, `set <param> <valor>`, `params`,
+  `defaults`, `e`. Los parámetros solo se aceptan en REPOSO, excepto `pwm N` (duty_on, en
+  cualquier estado; lo manda el deslizador, máximo uno cada 150 ms) y `manual 1|0` (solo REPOSO).
+- Líneas: `== <ESTADO>  (detalle)`, `!! LEYENDA: <texto>  -> ...`, `!! FALLA: ...`, `!! NO LISTO: ...`,
+  `RESULTADO,<tipo>,<ciclos>,<objetivo>,<causa>`, `P,param,valor,unidad`,
+  `M,estado,ciclo,v,i,t,spv,stop,manual,duty_on` (1 Hz, no se muestra en el registro), `MANUAL,<1|0>`,
+  `D,ciclo,v_on,i_on,i_on_min,i_on_max,v_off,i_off,t` y `D0,...` (verificación inicial).
+- Estados: REPOSO, VERIFICACION, FALLA DE VERIFICACION, NO LISTO, PURGA, AJUSTE DE PRESION,
+  CORRIENDO, PAUSA, CIERRE NEUMATICO.
+- El Opta no guarda nada: la PC guarda el CSV de cada prueba y los parámetros en JSON. Al presionar
+  Iniciar (o "Reanudar desde ciclo…") se pide el nombre del archivo (`logs/<nombre>.csv`); si ya
+  existe se agrega al final. Una fila por línea D / falla / resultado / cambio de PWM, con `flush`.
+  Si la prueba se inicia con el botón B1 del tablero, el nombre es automático (`durabilidad_<fecha>`).
+  Tras un corte de energía se reanuda con "Reanudar desde ciclo…" (último ciclo D registrado).
+
 ## Pendientes
 
 - [ ] Probar la interfaz en la Raspberry Pi 5 con la pantalla EDATEC y en macOS.
 - [ ] Agregar datos de la válvula cuando estén en el Opta: PWM, flujo y temperatura de la bobina.
 - [ ] Curva PWM → flujo: gráfica en la interfaz y exportación a CSV.
-- [ ] Pantalla para la **prueba de durabilidad** (`arduino/opta_durabilidad` del repo de control):
-      captura de parámetros (`set`), leyendas con botón para retirarlas (`k`), monitor (`M,`),
-      registro de ciclos (`D,`) a CSV, resultado y reanudar tras corte (`reanudar N`).
+- [x] Pantalla para la **prueba de durabilidad**: `durabilidad.py` (probada contra un Opta simulado).
+- [ ] Probar `durabilidad.py` con el Opta real y en la Raspberry Pi 5 (pantalla 1280×800).
 - [ ] Escalar a **5 válvulas**: la interfaz debe mostrar N canales (configurables), no uno fijo.
